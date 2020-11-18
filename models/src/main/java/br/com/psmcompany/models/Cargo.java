@@ -3,18 +3,20 @@ package br.com.psmcompany.models;
 import javax.persistence.*;
 
 @Entity(name = "cargo")
-@Table(name = "cargo", schema = "dbo")
+@Table(name = "cargo")
 public class Cargo {
     @Id
     @GeneratedValue( strategy= GenerationType.AUTO )
     @Column(name = "cargo_id")
     private Integer id;
 
-    @Column(name = "cargo_name", columnDefinition = "varchar", length = 20)
+    @Column(name = "cargo_name", columnDefinition = "varchar(20)")
     private String name;
 
-    @OneToMany(targetEntity = Cargo.class)
-    private Cargo cargos;
+    public Cargo(Integer id, String name) {
+        this.id = id;
+        this.name = name;
+    }
 
     public Integer getId() {
         return id;
@@ -32,19 +34,9 @@ public class Cargo {
         this.name = name;
     }
 
-    public Cargo getCargos() {
-        return cargos;
-    }
-
-    public void setCargos(Cargo cargos) {
-        this.cargos = cargos;
-    }
-
-
     public static final class CargoBuilder {
         private Integer id;
         private String name;
-        private Cargo cargos;
 
         private CargoBuilder() {
         }
@@ -63,17 +55,8 @@ public class Cargo {
             return this;
         }
 
-        public CargoBuilder withCargos(Cargo cargos) {
-            this.cargos = cargos;
-            return this;
-        }
-
         public Cargo build() {
-            Cargo cargo = new Cargo();
-            cargo.setId(id);
-            cargo.setName(name);
-            cargo.setCargos(cargos);
-            return cargo;
+            return new Cargo(id, name);
         }
     }
 }

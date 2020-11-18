@@ -1,4 +1,9 @@
 package br.com.psmcompany.data;
 
-public interface InterfaceDepartamento {
+import br.com.psmcompany.models.Departamento;
+import org.springframework.data.repository.CrudRepository;
+import org.springframework.stereotype.Repository;
+
+@Repository("departamento")
+public interface InterfaceDepartamento extends CrudRepository<Departamento, Integer> {
 }
