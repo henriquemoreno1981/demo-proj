@@ -1,6 +1,7 @@
 package br.com.psmcompany.models;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -24,7 +25,7 @@ public class Funcionario {
             cascade = CascadeType.ALL,
             orphanRemoval = true
     )
-    private List<Departamento> historicoDepartamentos;
+    private List<Departamento> historicoDepartamentos = new ArrayList<>();
     @OneToOne
     @JoinColumn(name = "funcionario_id", referencedColumnName = "departamento_id")
     private Departamento departamentos;
