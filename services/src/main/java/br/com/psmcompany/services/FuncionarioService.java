@@ -18,4 +18,9 @@ public class FuncionarioService implements IFuncionarioService {
     public Funcionario save(Funcionario funcionario) {
         return interfaceFuncionario.save(funcionario);
     }
+
+    @Override
+    public Iterable<Funcionario> saveAll(Iterable<Funcionario> funcionarios) {
+        return interfaceFuncionario.saveAll(funcionarios);
+    }
 }

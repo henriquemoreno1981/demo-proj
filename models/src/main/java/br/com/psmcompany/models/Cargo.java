@@ -2,7 +2,7 @@ package br.com.psmcompany.models;
 
 import javax.persistence.*;
 
-@Entity(name = "cargo")
+@Entity(name = "Cargo")
 @Table(name = "cargo")
 public class Cargo {
     @Id
@@ -10,7 +10,7 @@ public class Cargo {
     @Column(name = "cargo_id")
     private Integer id;
 
-    @Column(name = "cargo_name", columnDefinition = "varchar(20)")
+    @Column(name = "cargo_name", columnDefinition = "varchar(20)", nullable = false, length = 20)
     private String name;
 
     public Cargo() {

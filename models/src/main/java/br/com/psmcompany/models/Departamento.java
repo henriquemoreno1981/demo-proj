@@ -13,10 +13,10 @@ public class Departamento {
     private Integer id;
     @Column(name = "departamento_name", columnDefinition = "varchar(50)")
     private String name;
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "departamento_chefe_id", referencedColumnName = "funcionario_id")
     private Funcionario chefe;
-    @ManyToMany
+    @ManyToMany(cascade = CascadeType.MERGE)
     @JoinTable(
             name = "funcionario_departamento",
             joinColumns = @JoinColumn(name = "funcionario_id"),
@@ -66,6 +66,7 @@ public class Departamento {
     public void setFuncionarios(List<Funcionario> funcionarios) {
         this.funcionarios = funcionarios;
     }
+
 
     public static final class DepartamentoBuilder {
         private Integer id;

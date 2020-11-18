@@ -18,11 +18,11 @@ public class Funcionario {
     private Date birthday;
     @Column(name = "funcionario_document", columnDefinition = "nvarchar(50)")
     private String document;
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(cascade = {CascadeType.MERGE})
     @JoinColumn(name = "cargo_id", referencedColumnName = "cargo_id")
     private Cargo cargo;
     @OneToMany(
-            cascade = CascadeType.ALL,
+            cascade = { CascadeType.MERGE},
             orphanRemoval = true
     )
     private List<Departamento> historicoDepartamentos = new ArrayList<>();
