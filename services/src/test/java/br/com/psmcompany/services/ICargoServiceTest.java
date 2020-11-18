@@ -12,11 +12,11 @@ import java.util.Optional;
 import static org.hamcrest.CoreMatchers.*;
 import static org.hamcrest.MatcherAssert.*;
 
-@SpringBootTest(classes = {TestMain.class, CargoService.class, Cargo.class})
-class CargoServiceTest {
+@SpringBootTest(classes = {TestMain.class, CargoService.class, ICargoService.class, Cargo.class})
+class ICargoServiceTest {
 
     @Autowired
-    private CargoService cargoService;
+    private ICargoService cargoService;
 
     @Autowired
     private InterfaceCargo interfaceCargo;
