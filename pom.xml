@@ -18,6 +18,8 @@
         <module>rest</module>
         <module>web</module>
         <module>main</module>
+        <module>test</module>
+        <module>services</module>
     </modules>
 
 </project>

@@ -6,6 +6,17 @@ import java.util.List;
 @Entity(name = "departamento")
 @Table(name = "deportamento")
 public class Departamento {
+    public Departamento() {
+
+    }
+
+    public Departamento(Integer id, String name, Funcionario chefe, List<Funcionario> funcionarios) {
+        this.id = id;
+        this.name = name;
+        this.chefe = chefe;
+        this.funcionarios = funcionarios;
+    }
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "departamento_id")

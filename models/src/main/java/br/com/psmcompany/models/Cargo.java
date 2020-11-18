@@ -13,6 +13,10 @@ public class Cargo {
     @Column(name = "cargo_name", columnDefinition = "varchar(20)")
     private String name;
 
+    public Cargo() {
+
+    }
+
     public Cargo(Integer id, String name) {
         this.id = id;
         this.name = name;

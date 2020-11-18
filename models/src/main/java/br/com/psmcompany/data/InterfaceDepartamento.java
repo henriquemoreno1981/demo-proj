@@ -4,6 +4,6 @@ import br.com.psmcompany.models.Departamento;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
-@Repository("departamento")
+@Repository("departamentoRepository")
 public interface InterfaceDepartamento extends CrudRepository<Departamento, Integer> {
 }
