@@ -28,19 +28,19 @@ public class Funcionario {
     private List<Departamento> historicoDepartamentos = new ArrayList<>();
     @OneToOne
     @JoinColumn(name = "funcionario_id", referencedColumnName = "departamento_id")
-    private Departamento departamentos;
+    private Departamento departamento;
 
     public Funcionario() {
     }
 
-    public Funcionario(Integer id, String name, Date birthday, String document, Cargo cargo, List<Departamento> historicoDepartamentos, Departamento departamentos) {
+    public Funcionario(Integer id, String name, Date birthday, String document, Cargo cargo, List<Departamento> historicoDepartamentos, Departamento departamento) {
         this.id = id;
         this.name = name;
         this.birthday = birthday;
         this.document = document;
         this.cargo = cargo;
         this.historicoDepartamentos = historicoDepartamentos;
-        this.departamentos = departamentos;
+        this.departamento = departamento;
     }
 
     public Integer getId() {
@@ -91,12 +91,12 @@ public class Funcionario {
         this.historicoDepartamentos = historicoDepartamentos;
     }
 
-    public Departamento getDepartamentos() {
-        return departamentos;
+    public Departamento getDepartamento() {
+        return departamento;
     }
 
-    public void setDepartamentos(Departamento departamentos) {
-        this.departamentos = departamentos;
+    public void setDepartamento(Departamento departamento) {
+        this.departamento = departamento;
     }
 
     public static final class FuncionarioBuilder {
@@ -105,8 +105,8 @@ public class Funcionario {
         private Date birthday;
         private String document;
         private Cargo cargo;
-        private List<Departamento> historicoDepartamentos;
-        private Departamento departamentos;
+        private List<Departamento> historicoDepartamentos = new ArrayList<>();
+        private Departamento departamento;
 
         private FuncionarioBuilder() {
         }
@@ -145,8 +145,8 @@ public class Funcionario {
             return this;
         }
 
-        public FuncionarioBuilder withDepartamentos(Departamento departamentos) {
-            this.departamentos = departamentos;
+        public FuncionarioBuilder withDepartamento(Departamento departamento) {
+            this.departamento = departamento;
             return this;
         }
 
@@ -158,7 +158,7 @@ public class Funcionario {
             funcionario.setDocument(document);
             funcionario.setCargo(cargo);
             funcionario.setHistoricoDepartamentos(historicoDepartamentos);
-            funcionario.setDepartamentos(departamentos);
+            funcionario.setDepartamento(departamento);
             return funcionario;
         }
     }

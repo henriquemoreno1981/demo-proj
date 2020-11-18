@@ -12,7 +12,8 @@ import java.util.Optional;
 @Service
 public class CargoService implements ICargoService {
 
-    InterfaceCargo interfaceCargo;
+
+    private final InterfaceCargo interfaceCargo;
 
     public CargoService(@Autowired InterfaceCargo interfaceCargo) {
         this.interfaceCargo = interfaceCargo;
