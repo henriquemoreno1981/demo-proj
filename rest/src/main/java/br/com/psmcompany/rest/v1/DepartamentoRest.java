@@ -2,6 +2,7 @@ package br.com.psmcompany.rest.v1;
 
 import br.com.psmcompany.models.Departamento;
 import br.com.psmcompany.models.Funcionario;
+import br.com.psmcompany.rest.exception.MyRestException;
 import br.com.psmcompany.services.IDepartamentoService;
 import br.com.psmcompany.services.IFuncionarioService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,7 +34,7 @@ public class DepartamentoRest {
     public Departamento getDepartamentos(@PathVariable("id_departamento") Integer idDepartamento) {
         Optional<Departamento> departamento = this.departamentoService.findById(idDepartamento);
         if (!departamento.isPresent()) {
-            throw new RuntimeException(String.format("%d é inválido.", idDepartamento));
+            throw new MyRestException(String.format("%d é inválido.", idDepartamento));
         }
         return departamento.get();
     }
@@ -42,7 +43,7 @@ public class DepartamentoRest {
     public ResponseEntity<List<Funcionario>> getPessoasDepartamento(@PathVariable("id_departamento") Integer idDepartamento) {
         Optional<Departamento> departamento = this.departamentoService.findById(idDepartamento);
         if (!departamento.isPresent()) {
-            throw new RuntimeException(String.format("%d é inválido.", idDepartamento));
+            throw new MyRestException(String.format("%d é inválido.", idDepartamento));
         }
         return ResponseEntity.ok(departamento.get().getFuncionarios());
     }
@@ -51,7 +52,7 @@ public class DepartamentoRest {
     public Funcionario getPessoasDepartamento(@PathVariable("id_departamento") Integer idDepartamento, @PathVariable("id_funcionario") Integer idFuncionario) {
         Optional<Departamento> departamento = this.departamentoService.findById(idDepartamento);
         if (!departamento.isPresent()) {
-            throw new RuntimeException(String.format("%d é inválido.", idDepartamento));
+            throw new MyRestException(String.format("%d é inválido.", idDepartamento));
         }
         return this.departamentoService.findByDepartamentoAndFuncionario(idDepartamento, idFuncionario);
     }
