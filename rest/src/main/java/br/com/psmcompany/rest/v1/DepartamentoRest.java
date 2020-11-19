@@ -25,7 +25,7 @@ public class DepartamentoRest {
         this.funcionarioService = funcionarioService;
     }
 
-    @GetMapping(path = "/api/v1/departamento/")
+    @GetMapping(path = "/api/v1/departamento/", produces = {"application/json"}, consumes = {"application/json"})
     public Iterable<Departamento> getDepartamentos() {
         return this.departamentoService.findAll();
     }
@@ -39,7 +39,7 @@ public class DepartamentoRest {
         return departamento.get();
     }
 
-    @GetMapping(path = "/api/v1/departamento/{id_departamento}/funcionario")
+    @GetMapping(path = "/api/v1/departamento/{id_departamento}/funcionario", produces = {"application/json"}, consumes = {"application/json"})
     public ResponseEntity<List<Funcionario>> getPessoasDepartamento(@PathVariable("id_departamento") Integer idDepartamento) {
         Optional<Departamento> departamento = this.departamentoService.findById(idDepartamento);
         if (!departamento.isPresent()) {
@@ -48,7 +48,7 @@ public class DepartamentoRest {
         return ResponseEntity.ok(departamento.get().getFuncionarios());
     }
 
-    @GetMapping(path = "/api/v1/departamento/{id_departamento}/funcionario/{id_funcionario}")
+    @GetMapping(path = "/api/v1/departamento/{id_departamento}/funcionario/{id_funcionario}", produces = {"application/json"}, consumes = {"application/json"})
     public Funcionario getPessoasDepartamento(@PathVariable("id_departamento") Integer idDepartamento, @PathVariable("id_funcionario") Integer idFuncionario) {
         Optional<Departamento> departamento = this.departamentoService.findById(idDepartamento);
         if (!departamento.isPresent()) {

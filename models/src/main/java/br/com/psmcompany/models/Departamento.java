@@ -1,6 +1,8 @@
 package br.com.psmcompany.models;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -11,11 +13,16 @@ public class Departamento {
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "departamento_id")
     private Integer id;
+
+    @NotNull
+    @Size(min=1, max=50)
     @Column(name = "departamento_name", columnDefinition = "varchar(50)")
     private String name;
+
     @OneToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "departamento_chefe_id", referencedColumnName = "funcionario_id")
     private Funcionario chefe;
+
     @ManyToMany(cascade = CascadeType.MERGE)
     @JoinTable(
             name = "funcionario_departamento",

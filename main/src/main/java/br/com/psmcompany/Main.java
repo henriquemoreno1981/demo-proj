@@ -1,12 +1,13 @@
 package br.com.psmcompany;
 
 import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.AutoConfigurationPackage;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 @SpringBootApplication
-@AutoConfigurationPackage
+@EnableJpaRepositories
+@EnableTransactionManagement
 public class Main {
 
     public static void main(String[] args) {
