@@ -11,6 +11,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
@@ -61,7 +62,7 @@ class IDepartamentoServiceTest {
                                 .withDocument("XXXXXXXXX")
                                 .withBirthday(sdf.parse("01/04/1960"))
                                 .build()))
-                        .withFuncionarios((List<Funcionario>)funcionarioService.saveAll(Arrays.asList(Funcionario
+                        .withFuncionarios((List<Funcionario>) funcionarioService.saveAll(Arrays.asList(Funcionario
                                         .FuncionarioBuilder
                                         .aFuncionario()
                                         .withName("Thor")
@@ -92,6 +93,44 @@ class IDepartamentoServiceTest {
         assertThat(departamento.getName(), is(equalToIgnoringCase("Marvel")));
         assertThat(departamento.getChefe().getName(), is(equalToIgnoringCase("Nick Fury")));
         assertThat(departamento.getFuncionarios().size(), is(equalTo(2)));
-        
+
+    }
+
+    @Test
+    public void findById() {
+        Departamento departamentoSalvo = departamentoService.save(Departamento
+                .DepartamentoBuilder
+                .aDepartamento()
+                .withName("Jornalismo")
+                .build());
+        Optional<Departamento> departamento = departamentoService.findById(departamentoSalvo.getId());
+        assertThat(departamento.get().getId(), is(equalTo(departamentoSalvo.getId())));
+    }
+
+    @Test
+    public void findByDepartamentoAndFuncionario() {
+
+        List<Funcionario> funcionarios = Arrays.asList(new Funcionario[]{
+                Funcionario.FuncionarioBuilder.aFuncionario()
+                        .withName("João de Barro")
+                        .withCargo(cargoService.save(
+                                Cargo.CargoBuilder.aCargo().withName("Editor").build()
+                        )).build(),
+                Funcionario.FuncionarioBuilder.aFuncionario()
+                        .withName("Bemtevi")
+                        .withCargo(cargoService.save(
+                                Cargo.CargoBuilder.aCargo().withName("Jornalista").build()
+                        )).build()
+        });
+        Departamento departamentoSalvo = departamentoService.save(Departamento
+                .DepartamentoBuilder
+                .aDepartamento()
+                .withName("Jornalismo")
+                .withFuncionarios((List<Funcionario>) funcionarioService.saveAll(funcionarios))
+                .build());
+
+        Funcionario funcionario = departamentoService.findByDepartamentoAndFuncionario(departamentoSalvo.getId(), funcionarios.get(0).getId());
+        assertThat(funcionario.getId(), is(equalTo(funcionarios.get(0).getId())));
+        assertThat(funcionario.getName(), is(equalToIgnoringCase(funcionarios.get(0).getName())));
     }
 }

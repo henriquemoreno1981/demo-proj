@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-@Entity(name = "funcionario")
+@Entity(name = "Funcionario")
 @Table(name = "funcionario")
 public class Funcionario {
     @Id
