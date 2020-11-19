@@ -67,4 +67,11 @@ Todas as classes de controle `rest` se encontram nesse diretório e os testes un
 
 ### Service
 
-Neste diretório todos os serviços, assim como os testes unitários.  
+Neste diretório todos os serviços, assim como os testes unitários.
+
+# Desejos
+
+- Criar container para o projeto (Docker);
+- Colocar em um banco de dados mais robusto (Oracle, MySQL, MSSQL, PostgreSQL);
+- Sistema de cache se o sistema escale;
+- Fazer front-end para o CRUD;
