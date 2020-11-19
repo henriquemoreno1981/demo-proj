@@ -6,6 +6,7 @@ import br.com.psmcompany.models.Funcionario;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.validation.constraints.NotNull;
 import java.util.Optional;
 
 @Service
@@ -17,7 +18,7 @@ public class DepartamentoService implements IDepartamentoService {
     }
 
     @Override
-    public Departamento save(Departamento departamento) {
+    public Departamento save(@NotNull Departamento departamento) {
         return this.interfaceDepartamento.save(departamento);
     }
 
@@ -27,12 +28,12 @@ public class DepartamentoService implements IDepartamentoService {
     }
 
     @Override
-    public Optional<Departamento> findById(Integer idDepartamento) {
+    public Optional<Departamento> findById(@NotNull Integer idDepartamento) {
         return this.interfaceDepartamento.findById(idDepartamento);
     }
 
     @Override
-    public Funcionario findByDepartamentoAndFuncionario(Integer idDepartamento, Integer idFuncionario) {
+    public Funcionario findByDepartamentoAndFuncionario(@NotNull Integer idDepartamento, @NotNull Integer idFuncionario) {
         return this.interfaceDepartamento.findByIdAndFuncionario(idDepartamento, idFuncionario);
     }
 }

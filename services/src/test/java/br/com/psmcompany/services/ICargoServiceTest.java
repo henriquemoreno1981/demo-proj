@@ -6,12 +6,14 @@ import br.com.psmcompany.models.Cargo;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.dao.InvalidDataAccessApiUsageException;
+import org.springframework.transaction.TransactionSystemException;
 
 import java.util.Optional;
 
-import static org.hamcrest.CoreMatchers.equalTo;
-import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.CoreMatchers.*;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @SpringBootTest(classes = {TestMain.class, CargoService.class, ICargoService.class, Cargo.class})
 class ICargoServiceTest {
@@ -28,6 +30,46 @@ class ICargoServiceTest {
 
         Cargo salvar = cargoService.save(cargo);
         assertThat(salvar.getName(), is(equalTo("Contador")));
+    }
+
+    @Test
+    void salvarVazio() {
+        Exception exception = assertThrows(InvalidDataAccessApiUsageException.class, () -> {
+            cargoService.save(null);
+        });
+        String expectedMessage = "Entity must not be null.; nested exception is java.lang.IllegalArgumentException: Entity must not be null.";
+        String actualMessage = exception.getMessage();
+
+        assertThat(actualMessage, is(containsStringIgnoringCase(expectedMessage)));
+    }
+
+    @Test
+    void salvarCargoVazio() {
+        Exception exception = assertThrows(TransactionSystemException.class, () -> {
+            cargoService.save(new Cargo());
+        });
+        String expectedMessage = "Could not commit JPA transaction; nested exception is javax.persistence.RollbackException: Error while committing the transaction";
+        String actualMessage = exception.getMessage();
+
+        assertThat(actualMessage, is(containsStringIgnoringCase(expectedMessage)));
+    }
+
+    @Test
+    void salvarCargoComId() {
+        Exception exception = assertThrows(TransactionSystemException.class, () -> {
+            cargoService.save(Cargo.CargoBuilder.aCargo().withId(1).build());
+        });
+        String expectedMessage = "Could not commit JPA transaction; nested exception is javax.persistence.RollbackException: Error while committing the transaction";
+        String actualMessage = exception.getMessage();
+
+        assertThat(actualMessage, is(containsStringIgnoringCase(expectedMessage)));
+    }
+
+    @Test
+    void salvarCargoComNome() {
+        Cargo cargo = cargoService.save(Cargo.CargoBuilder.aCargo().withName("James").build());
+
+        assertThat(cargo.getName(), is(containsStringIgnoringCase("James")));
     }
 
     @Test

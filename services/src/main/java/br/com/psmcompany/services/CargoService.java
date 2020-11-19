@@ -5,6 +5,7 @@ import br.com.psmcompany.models.Cargo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -20,22 +21,22 @@ public class CargoService implements ICargoService {
     }
 
     @Override
-    public Cargo save(Cargo cargo) {
+    public Cargo save(@NotNull Cargo cargo) {
         return interfaceCargo.save(cargo);
     }
 
     @Override
-    public void deleteById(Integer id) {
+    public void deleteById(@NotNull Integer id) {
         interfaceCargo.deleteById(id);
     }
 
     @Override
-    public Optional<Cargo> findById(Integer id) {
+    public Optional<Cargo> findById(@NotNull Integer id) {
         return interfaceCargo.findById(id);
     }
 
     @Override
-    public Optional<Cargo> findByName(String name) {
+    public Optional<Cargo> findByName(@NotNull String name) {
         return interfaceCargo.findByName(name);
     }
 
