@@ -21,17 +21,21 @@ class InterfaceDepartamentoTest {
 
     @Test
     public void testInterfaceCargo() {
-        Cargo cargo = new Cargo();
+        Cargo cargo = Cargo
+                .CargoBuilder
+                .aCargo()
+                .withName("Cargo1")
+                .build();
         interfaceCargo.save(cargo);
         Optional<Cargo> byId = interfaceCargo.findById(1);
         assertThat(byId.get().getId(), is(equalTo(1)));
         Iterable<Cargo> cargos = interfaceCargo.findAll();
-        for (Cargo cargo1: cargos) {
+        for (Cargo cargo1 : cargos) {
             assertThat(cargo1.getId(), is(equalTo(1)));
         }
         interfaceCargo.delete(byId.get());
         Iterable<Cargo> cargos2 = interfaceCargo.findAll();
-        for (Cargo cargo1: cargos2) {
+        for (Cargo cargo1 : cargos2) {
             fail();
         }
     }
