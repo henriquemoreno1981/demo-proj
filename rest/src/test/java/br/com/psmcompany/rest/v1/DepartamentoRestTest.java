@@ -3,6 +3,8 @@ package br.com.psmcompany.rest.v1;
 import br.com.psmcompany.TestMain;
 import br.com.psmcompany.models.Departamento;
 import br.com.psmcompany.models.Funcionario;
+import br.com.psmcompany.rest.util.HeaderRequestInterceptor;
+import br.com.psmcompany.rest.util.LoggingRequestInterceptor;
 import br.com.psmcompany.services.DepartamentoService;
 import br.com.psmcompany.services.FuncionarioService;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -11,13 +13,16 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.web.server.LocalServerPort;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.MediaType;
+import org.springframework.http.client.BufferingClientHttpRequestFactory;
+import org.springframework.http.client.ClientHttpRequestInterceptor;
+import org.springframework.http.client.SimpleClientHttpRequestFactory;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 
 import java.net.URI;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -35,7 +40,7 @@ class DepartamentoRestTest {
     @LocalServerPort
     int randomServerPort;
 
-    RestTemplate restTemplate = new RestTemplate();
+    RestTemplate restTemplate = DepartamentoRestTest.makeRestTemplate();
 
     ObjectMapper objectMapper = new ObjectMapper();
 
@@ -45,14 +50,22 @@ class DepartamentoRestTest {
     @Autowired
     FuncionarioService funcionarioService;
 
+    static RestTemplate makeRestTemplate() {
+        List<ClientHttpRequestInterceptor> interceptors = new ArrayList<>();
+
+        interceptors.add(new HeaderRequestInterceptor("Accept", MediaType.APPLICATION_JSON_VALUE));
+        //interceptors.add(new LoggingRequestInterceptor());
+        RestTemplate restTemplate = new RestTemplate(new BufferingClientHttpRequestFactory(new SimpleClientHttpRequestFactory()));
+        restTemplate.setInterceptors(interceptors);
+        return restTemplate;
+    }
+
     @Test
     void getDepartamentos() throws JsonProcessingException {
         departamentoService.save(Departamento.DepartamentoBuilder.aDepartamento().withName("Departamento 1").build());
         departamentoService.save(Departamento.DepartamentoBuilder.aDepartamento().withName("Departamento 2").build());
         departamentoService.save(Departamento.DepartamentoBuilder.aDepartamento().withName("Departamento 3").build());
-        ResponseEntity<String> responseDepartamentos = this.restTemplate.getForEntity(URI.create(String.format("http://localhost:%d/api/v1/departamento/", randomServerPort)), String.class);
-        assertThat(responseDepartamentos.getStatusCode(), is(equalTo(HttpStatus.OK)));
-        List<Departamento> departamentos = (List<Departamento>) objectMapper.readValue(responseDepartamentos.getBody(), List.class);
+        List<Departamento> departamentos = this.restTemplate.getForObject(URI.create(String.format("http://localhost:%d/api/v1/departamento/", randomServerPort)), List.class);
         assertThat(departamentos.size(), is(greaterThanOrEqualTo(3)));
     }
 
@@ -135,11 +148,10 @@ class DepartamentoRestTest {
     @Test
     void testGetPessoasDepartamentoErro() {
         try {
-            ResponseEntity<Departamento> entityDepartamento = restTemplate.getForEntity(URI.create(String.format("http://localhost:%d/api/v1/departamento/%d", randomServerPort, 99999999)), Departamento.class);
-            assertThat(entityDepartamento.getStatusCode(), is(equalTo(HttpStatus.NOT_FOUND)));
+            Departamento entityDepartamento = restTemplate.getForObject(URI.create(String.format("http://localhost:%d/api/v1/departamento/%d", randomServerPort, 99999999)), Departamento.class);
             fail("");
         } catch (Throwable t) {
-            assertTrue("OK",true);
+            assertTrue("OK", true);
         }
     }
 
